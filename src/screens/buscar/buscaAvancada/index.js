@@ -55,11 +55,11 @@ export default (props) => {
     const data = await response.json();
     if (data.length > 0) {
       setPratos(data);
-      setLoading(true);
+      setLoading(false);
     } else {
-      setPratos(data);
+      setPratos([]);
       setMensagem('Nenhum resultado encontrado');
-      setLoading(true);
+      setLoading(false);
     }
   }
 

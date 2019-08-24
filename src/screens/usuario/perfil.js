@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -7,7 +7,7 @@ import {
   Image,
   InteractionManager,
 } from 'react-native';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import PratoPerfil from '~/src/components/PratoPerfil';
 import pratoActions from '~/src/redux/actions/PratoActionCreator';
@@ -17,19 +17,26 @@ import { H4, H5 } from '~/src/styled-components/Texto';
 import { ScrollWrapperCenter, WrapperCenter, Wrapper } from '~/src/styled-components/Wrapper';
 import AsyncStorage from '~/src/util/AsyncStorage';
 
-class Perfil extends Component {
-  componentDidMount() {
+export default (props) => {
+  const {
+    nome, email, foto, pratos, erro, sucesso, loading
+  } = useSelector(
+    (state) => state.UsuarioReducer
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
     InteractionManager.runAfterInteractions(async () => {
       const token = await AsyncStorage.getItem('token');
       if (!token) {
-        this.props.navigation.navigate('Home');
+        props.navigation.navigate('Home');
       } else {
-        this.props.onGetUsuario();
+        dispatch(usuarioActions.getUsuario());
       }
     });
-  }
+  }, []);
 
-  excluir = (id) => {
+  function excluir(id) {
     Alert.alert(
       'Atenção',
       'Deseja mesmo excluir esse prato?',
@@ -38,117 +45,67 @@ class Perfil extends Component {
           text: 'Não',
           style: 'cancel',
         },
-        { text: 'Sim', onPress: () => this.props.onExcluir(id) },
+        { text: 'Sim', onPress: () => dispatch(pratoActions.delete(id)) },
       ],
       { cancelable: true }
     );
-  };
-
-  render() {
-    const {
-      nome, email, foto, loading
-    } = this.props;
-    return (
-      <ScrollWrapperCenter>
-        {loading ? (
-          <View
-            style={{
-              width: '100%',
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#305c9b',
-            }}
-          >
-            <ActivityIndicator size="large" color="#1d3f72" />
-          </View>
-        ) : (
-          <Wrapper>
-            <WrapperCenter style={{ backgroundColor: '#305c9b' }}>
-              <View style={{ ...styles.ImgContainer, marginTop: 10 }}>
-                <Image style={styles.Img} source={{ uri: foto }} />
-              </View>
-              <H4 style={{ color: '#FFF' }}>{nome}</H4>
-              <H5 style={{ color: '#D5D5D5' }}>{email}</H5>
-              <Botao
-                style={{ backgroundColor: '#184890', borderWidth: 0 }}
-                onPress={() => this.props.navigation.navigate('AlterarDados')}
-              >
-                <BotaoTexto style={{ padding: 10, width: 120 }}>Alterar dados</BotaoTexto>
-              </Botao>
-              <Botao
-                style={{
-                  backgroundColor: '#8e0000',
-                  borderWidth: 1,
-                  borderColor: '#630000',
-                  minWidth: 80,
-                  height: 25,
-                }}
-                onPress={async () => {
-                  await AsyncStorage.removeItem('token');
-                  this.props.navigation.navigate('Home');
-                }}
-              >
-                <BotaoTexto style={{ paddingHorizontal: 10 }}>Sair</BotaoTexto>
-              </Botao>
-              <H5 style={{ color: 'red' }}>{this.props.erro}</H5>
-              <H5 style={{ color: 'lightgreen' }}>{this.props.sucesso}</H5>
-            </WrapperCenter>
-            <Wrapper style={{ backgroundColor: '#184890' }}>
-              <H4
-                style={{
-                  backgroundColor: '#305c9b',
-                  color: '#FFF',
-                  textAlign: 'left',
-                  padding: 5,
-                }}
-              >
-                Meus pratos(
-                {this.props.pratos ? this.props.pratos.length : ''}
-                ):
-              </H4>
-              {this.props.pratos.map(prato => (
-                <PratoPerfil
-                  key={prato.Id}
-                  id={prato.Id}
-                  nome={prato.Nome}
-                  data={prato.DataCriacao}
-                  navegar={this.props.navigation.navigate}
-                  editar={this.props.navigation.navigate}
-                  excluir={this.excluir}
-                />
-              ))}
-            </Wrapper>
-          </Wrapper>
-        )}
-      </ScrollWrapperCenter>
-    );
   }
-}
 
-const mapStateToProps = state => ({
-  nome: state.UsuarioReducer.nome,
-  email: state.UsuarioReducer.email,
-  foto: state.UsuarioReducer.foto,
-  pratos: state.UsuarioReducer.pratos,
-  loading: state.UsuarioReducer.loading,
-  erro: state.UsuarioReducer.erro,
-  sucesso: state.UsuarioReducer.sucesso,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onGetUsuario() {
-    dispatch(usuarioActions.getUsuario());
-  },
-  onExcluir(id) {
-    dispatch(pratoActions.delete(id));
-  },
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Perfil);
+  return (
+    <ScrollWrapperCenter>
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#1d3f72" />
+        </View>
+      ) : (
+        <Wrapper>
+          <WrapperCenter style={styles.bgColor}>
+            <View style={{ ...styles.ImgContainer, marginTop: 10 }}>
+              <Image style={styles.Img} source={{ uri: foto }} />
+            </View>
+            <H4 style={styles.colorNome}>{nome}</H4>
+            <H5 style={styles.colorEmail}>{email}</H5>
+            <Botao
+              style={styles.btnAlterarDados}
+              onPress={() => props.navigation.navigate('AlterarDados')}
+            >
+              <BotaoTexto style={styles.btnAlterarDadosText}>Alterar dados</BotaoTexto>
+            </Botao>
+            <Botao
+              style={styles.btnSair}
+              onPress={async () => {
+                await AsyncStorage.removeItem('token');
+                props.navigation.navigate('Home');
+              }}
+            >
+              <BotaoTexto style={styles.paddingY10}>Sair</BotaoTexto>
+            </Botao>
+            <H5 style={styles.redText}>{erro}</H5>
+            <H5 style={styles.greenText}>{sucesso}</H5>
+          </WrapperCenter>
+          <Wrapper style={styles.bgColorSecundary}>
+            <H4 style={styles.label}>
+              Meus pratos(
+              {pratos ? pratos.length : ''}
+              ):
+            </H4>
+            {pratos.map((prato) => (
+              <PratoPerfil
+                key={prato.Id}
+                id={prato.Id}
+                nome={prato.Nome}
+                data={prato.DataCriacao}
+                navegar={props.navigation.navigate}
+                editar={props.navigation.navigate}
+                excluir={excluir}
+              />
+            ))}
+          </Wrapper>
+        </Wrapper>
+      )}
+    </ScrollWrapperCenter>
+  );
+};
 
 const styles = StyleSheet.create({
   ImgContainer: {
@@ -162,5 +119,34 @@ const styles = StyleSheet.create({
     height: 200,
     width: 200,
     borderRadius: 100,
+  },
+  loadingContainer: {
+    width: '100%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#305c9b',
+  },
+  bgColor: { backgroundColor: '#305c9b' },
+  bgColorSecundary: { backgroundColor: '#184890' },
+  colorNome: { color: '#FFF' },
+  colorEmail: { color: '#D5D5D5' },
+  btnAlterarDados: { backgroundColor: '#184890', borderWidth: 0 },
+  btnAlterarDadosText: { padding: 10, width: 120 },
+  btnSair: {
+    backgroundColor: '#8e0000',
+    borderWidth: 1,
+    borderColor: '#630000',
+    minWidth: 80,
+    height: 25,
+  },
+  paddingY10: { paddingHorizontal: 10 },
+  redText: { color: 'red' },
+  greenText: { color: 'lightgreen' },
+  label: {
+    backgroundColor: '#305c9b',
+    color: '#FFF',
+    textAlign: 'left',
+    padding: 5,
   },
 });

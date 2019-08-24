@@ -130,7 +130,7 @@ const StackNavigator = createStackNavigator(
 
 const AppSwitchNavigator = createSwitchNavigator(
   {
-    BuscaAvancada,
+    Perfil,
     // StackNavigator,
   },
   {}
