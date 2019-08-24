@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -18,20 +18,21 @@ import { ScrollWrapperCenter, WrapperCenter, Wrapper } from '~/src/styled-compon
 import AsyncStorage from '~/src/util/AsyncStorage';
 
 export default (props) => {
+  const [loading, setLoading] = useState(false);
   const {
-    nome, email, foto, pratos, erro, sucesso, loading
-  } = useSelector(
-    (state) => state.UsuarioReducer
-  );
+    nome, email, foto, pratos, erro, sucesso
+  } = useSelector((state) => state.UsuarioReducer);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  useEffect(async () => {
     InteractionManager.runAfterInteractions(async () => {
       const token = await AsyncStorage.getItem('token');
       if (!token) {
         props.navigation.navigate('Home');
       } else {
-        dispatch(usuarioActions.getUsuario());
+        setLoading(true);
+        await dispatch(usuarioActions.getUsuario());
+        setLoading(false);
       }
     });
   }, []);
@@ -60,7 +61,7 @@ export default (props) => {
       ) : (
         <Wrapper>
           <WrapperCenter style={styles.bgColor}>
-            <View style={{ ...styles.ImgContainer, marginTop: 10 }}>
+            <View style={styles.avatarContainer}>
               <Image style={styles.Img} source={{ uri: foto }} />
             </View>
             <H4 style={styles.colorNome}>{nome}</H4>
@@ -85,9 +86,7 @@ export default (props) => {
           </WrapperCenter>
           <Wrapper style={styles.bgColorSecundary}>
             <H4 style={styles.label}>
-              Meus pratos(
-              {pratos ? pratos.length : ''}
-              ):
+              Meus pratos({pratos.length}):
             </H4>
             {pratos.map((prato) => (
               <PratoPerfil
@@ -148,5 +147,13 @@ const styles = StyleSheet.create({
     color: '#FFF',
     textAlign: 'left',
     padding: 5,
+  },
+  avatarContainer: {
+    height: 208,
+    width: 208,
+    borderRadius: 100,
+    borderWidth: 4,
+    borderColor: '#184890',
+    marginTop: 10,
   },
 });
