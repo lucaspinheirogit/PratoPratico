@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -8,6 +7,8 @@ import Usuario from '~/src/img/usuario.png';
 import actions from '~/src/redux/actions/UsuarioActionCreator';
 import { H5 } from '~/src/styled-components/Texto';
 import { ScrollWrapperCenter } from '~/src/styled-components/Wrapper';
+
+import styles from './styles'
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -26,10 +27,5 @@ const Login = () => {
     </ScrollWrapperCenter>
   );
 };
-
-const styles = StyleSheet.create({
-  logo: { width: 150, height: 150 },
-  erro: { color: 'red' }
-})
 
 export default Login;

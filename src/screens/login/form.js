@@ -1,11 +1,13 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import * as Yup from 'yup';
 
 import { Botao, BotaoTexto } from '~/src/styled-components/Botao';
 import { Input } from '~/src/styled-components/Input';
 import { H4, H5 } from '~/src/styled-components/Texto';
+
+import styles from './styles'
 
 const LoginForm = (props) => {
   let senhaInput = null;
@@ -35,7 +37,7 @@ const LoginForm = (props) => {
                   onSubmitEditing={focusSenha}
                   blurOnSubmit={false}
                 />
-                <H5 style={styles.erro}>{props.errors.email}</H5>
+                <H5 style={styles.inputErro}>{props.errors.email}</H5>
               </View>
               <View style={styles.inputContainer}>
                 <H4 style={styles.label}>Senha:</H4>
@@ -50,7 +52,7 @@ const LoginForm = (props) => {
                   blurOnSubmit={false}
                   secureTextEntry
                 />
-                <H5 style={styles.erro}>{props.errors.senha}</H5>
+                <H5 style={styles.inputErro}>{props.errors.senha}</H5>
               </View>
 
               <Botao style={styles.btn} onPress={props.handleSubmit}>
@@ -71,18 +73,6 @@ const validationSchema = Yup.object().shape({
   senha: Yup.string()
     .required('Campo obrigatório')
     .min(6, 'Sua senha deve ter pelo menos 6 caracteres'),
-});
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  inputContainer: { width: '100%', paddingHorizontal: 20 },
-  erro: { textAlign: 'right', color: 'red', width: '100%' },
-  label: { textAlign: 'left', color: '#0d2b56', width: '100%' },
-  btn: { width: 80 },
 });
 
 export default LoginForm;
