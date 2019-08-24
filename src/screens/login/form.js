@@ -1,19 +1,19 @@
-import { Formik } from 'formik';
-import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
-import * as Yup from 'yup';
+import { Formik } from 'formik'
+import React from 'react'
+import { View, ActivityIndicator } from 'react-native'
+import * as Yup from 'yup'
 
-import { Botao, BotaoTexto } from '~/src/styled-components/Botao';
-import { Input } from '~/src/styled-components/Input';
-import { H4, H5 } from '~/src/styled-components/Texto';
+import { Botao, BotaoTexto } from '~/src/styled-components/Botao'
+import { Input } from '~/src/styled-components/Input'
+import { H4, H5 } from '~/src/styled-components/Texto'
 
 import styles from './styles'
 
-const LoginForm = (props) => {
-  let senhaInput = null;
+const LoginForm = props => {
+  let senhaInput = null
 
   function focusSenha() {
-    senhaInput.focus();
+    senhaInput.focus()
   }
 
   return (
@@ -22,7 +22,7 @@ const LoginForm = (props) => {
       onSubmit={props.onSubmit}
       validationSchema={validationSchema}
     >
-      {(props) => (
+      {props => (
         <View style={styles.container}>
           {props.isSubmitting ? (
             <ActivityIndicator size="large" color="#1d3f72" />
@@ -45,8 +45,8 @@ const LoginForm = (props) => {
                   onChangeText={props.handleChange('senha')}
                   value={props.values.senha}
                   returnKeyType="next"
-                  ref={(ref) => {
-                    senhaInput = ref;
+                  ref={ref => {
+                    senhaInput = ref
                   }}
                   onSubmitEditing={props.handleSubmit}
                   blurOnSubmit={false}
@@ -63,8 +63,8 @@ const LoginForm = (props) => {
         </View>
       )}
     </Formik>
-  );
-};
+  )
+}
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -73,6 +73,6 @@ const validationSchema = Yup.object().shape({
   senha: Yup.string()
     .required('Campo obrigatório')
     .min(6, 'Sua senha deve ter pelo menos 6 caracteres'),
-});
+})
 
-export default LoginForm;
+export default LoginForm
