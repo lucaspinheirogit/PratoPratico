@@ -129,7 +129,7 @@ const StackNavigator = createStackNavigator(
 
 const AppSwitchNavigator = createSwitchNavigator(
   {
-    Signup,
+    Home,
     // StackNavigator,
   },
   {}
