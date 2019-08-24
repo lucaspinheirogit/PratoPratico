@@ -17,6 +17,7 @@ import {
   Perfil, AlterarDados
 } from './screens/usuario';
 
+import BuscaNormal from './screens/buscar/buscaNormal'
 
 const BottomTabNavigator = createBottomTabNavigator(
   {
@@ -129,7 +130,7 @@ const StackNavigator = createStackNavigator(
 
 const AppSwitchNavigator = createSwitchNavigator(
   {
-    Signup,
+    BuscaNormal,
     // StackNavigator,
   },
   {}

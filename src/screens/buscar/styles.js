@@ -18,4 +18,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
+  center: { textAlign: 'center' },
+  marginTop150: { marginTop: 150 },
+  paddingY10: { paddingVertical: 10 }
 });
