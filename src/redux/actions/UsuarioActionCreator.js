@@ -47,8 +47,6 @@ export default {
         img = json.base64;
       }
 
-      console.log(img)
-
       const body = JSON.stringify({
         nome,
         email,
@@ -68,7 +66,6 @@ export default {
         });
 
         const data = await response.json();
-        console.log(data);
 
         if (response.ok) {
           await AsyncStorage.setItem('token', data.token).then(() => {

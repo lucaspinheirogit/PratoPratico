@@ -149,8 +149,8 @@ const styles = StyleSheet.create({
   inputContainer: { width: '100%', paddingHorizontal: 20 },
   erro: { textAlign: 'right', color: 'red', width: '100%' },
   label: { textAlign: 'left', color: '#0d2b56', width: '100%' },
-  btn: { width: 80 },
-  btnImagePicker: { width: 180 },
+  btn: { width: 100 },
+  btnImagePicker: { width: 140 },
 });
 
 export default LoginForm;

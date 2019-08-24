@@ -11,10 +11,10 @@ import Buscar from './screens/buscar';
 import Inicio from './screens/inicio'
 import Home from './screens/home';
 import Login from './screens/login';
-import SignupTeste from './screens/signup';
+import Signup from './screens/signup';
 import { CriarPrato, VerPrato, EditarPrato } from './screens/prato';
 import {
-  Signup, Perfil, AlterarDados
+  Perfil, AlterarDados
 } from './screens/usuario';
 
 
@@ -129,7 +129,7 @@ const StackNavigator = createStackNavigator(
 
 const AppSwitchNavigator = createSwitchNavigator(
   {
-    SignupTeste,
+    Signup,
     // StackNavigator,
   },
   {}

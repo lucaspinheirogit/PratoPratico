@@ -24,8 +24,6 @@ export default {
         });
         const data = await response.json();
 
-        console.log(`${API_URL}/pratos?offset=${offset}&limit=${limit}`)
-
         if (response.ok) {
           dispatch({ type: GET_PRATOS, pratos: data.pratos, hasMore: data.pagination.hasMore });
         } else {
