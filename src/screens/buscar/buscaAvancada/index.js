@@ -1,42 +1,36 @@
-import React, { Component } from 'react';
-import {
-  View, Text, ActivityIndicator
-} from 'react-native';
+import React, { useState } from 'react';
+import { Text, ActivityIndicator } from 'react-native';
 import { API_URL } from 'react-native-dotenv';
 
 import Prato from '~/src/components/Prato';
-import { Botao, BotaoTexto } from '~/src/styled-components/Botao';
 import { ScrollWrapper } from '~/src/styled-components/Wrapper';
 
 import AdvancedSearch from './advancedSearch';
 import PratosList from '../pratosList';
-import styles from '../styles'
+import styles from '../styles';
 
-export default class Buscar extends Component {
-  state = {
-    pratos: [],
-    mensagem: '',
-    loading: false,
-  };
+export default (props) => {
+  const [pratos, setPratos] = useState([]);
+  const [mensagem, setMensagem] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  renderItem = ({ item }) => (
-    <Prato
-      key={item.Id}
-      id={item.Id}
-      titulo={item.Nome}
-      descricao={item.Descricao}
-      imagem={item.Foto}
-      dificuldade={item.Dificuldade}
-      navegar={this.props.navigation.navigate}
-    />
-  );
+  function renderItem({ item }) {
+    return (
+      <Prato
+        key={item.Id}
+        id={item.Id}
+        titulo={item.Nome}
+        descricao={item.Descricao}
+        imagem={item.Foto}
+        dificuldade={item.Dificuldade}
+        navegar={props.navigation.navigate}
+      />
+    );
+  }
 
-  buscaAvancada = async (nome, tempo, dificuldade, ing) => {
-    this.setState({
-      ...this.state,
-      mensagem: '',
-      loading: true,
-    });
+  async function buscaAvancada(nome, tempo, dificuldade, ing) {
+    setMensagem('');
+    setLoading(true);
 
     let ingredientes = null;
     nome ? '' : (nome = null);
@@ -60,32 +54,24 @@ export default class Buscar extends Component {
 
     const data = await response.json();
     if (data.length > 0) {
-      this.setState({
-        ...this.state,
-        pratos: data,
-        loading: false,
-      });
+      setPratos(data);
+      setLoading(true);
     } else {
-      this.setState({
-        ...this.state,
-        pratos: [],
-        mensagem: 'Nenhum resultado encontrado',
-        loading: false,
-      });
+      setPratos(data);
+      setMensagem('Nenhum resultado encontrado');
+      setLoading(true);
     }
-  };
-
-  render() {
-    return (
-      <ScrollWrapper style={{ paddingVertical: 10 }}>
-        <AdvancedSearch busca={this.buscaAvancada} />
-        {this.state.loading ? (
-          <ActivityIndicator style={{ marginTop: 150 }} size="large" color="#1d3f72" />
-        ) : (
-          <PratosList pratos={this.state.pratos} renderItem={this.renderItem} />
-        )}
-        <Text style={{ textAlign: 'center' }}>{this.state.mensagem}</Text>
-      </ScrollWrapper>
-    );
   }
-}
+
+  return (
+    <ScrollWrapper style={styles.paddingY10}>
+      <AdvancedSearch busca={buscaAvancada} />
+      {loading ? (
+        <ActivityIndicator style={styles.marginTop150} size="large" color="#1d3f72" />
+      ) : (
+        <PratosList pratos={pratos} renderItem={renderItem} />
+      )}
+      <Text style={styles.center}>{mensagem}</Text>
+    </ScrollWrapper>
+  );
+};
