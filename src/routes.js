@@ -14,10 +14,10 @@ import Login from './screens/login';
 import Signup from './screens/signup';
 import { CriarPrato, VerPrato, EditarPrato } from './screens/prato';
 import {
-  Perfil, AlterarDados
+  Perfil
 } from './screens/usuario';
 
-import BuscaAvancada from './screens/buscar/buscaAvancada'
+import AlterarDados from './screens/usuario/alterarDados/index'
 
 const BottomTabNavigator = createBottomTabNavigator(
   {
@@ -130,8 +130,8 @@ const StackNavigator = createStackNavigator(
 
 const AppSwitchNavigator = createSwitchNavigator(
   {
-    Perfil,
-    // StackNavigator,
+    // AlterarDadosTeste
+    StackNavigator,
   },
   {}
 );

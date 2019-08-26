@@ -24,18 +24,22 @@ export default (props) => {
   } = useSelector((state) => state.UsuarioReducer);
   const dispatch = useDispatch();
 
-  useEffect(async () => {
+  useEffect(() => {
     InteractionManager.runAfterInteractions(async () => {
       const token = await AsyncStorage.getItem('token');
       if (!token) {
         props.navigation.navigate('Home');
       } else {
         setLoading(true);
-        await dispatch(usuarioActions.getUsuario());
+        fetchUsuario()
         setLoading(false);
       }
     });
   }, []);
+
+  async function fetchUsuario(){
+    await dispatch(usuarioActions.getUsuario());
+  }
 
   function excluir(id) {
     Alert.alert(
