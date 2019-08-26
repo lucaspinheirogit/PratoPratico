@@ -1,5 +1,7 @@
 # Prato Prático
 
+Aplicativo de receitas com busca rápida e avançada de pratos.
+
 ## Rodando o projeto
 
 ##### Baixe todas as dependências:
