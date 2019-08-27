@@ -18,6 +18,7 @@ module.exports = {
     "no-shadow": 'off',
     "space-before-function-paren": 'off',
     "space-before-blocks": 'off',
+    "object-curly-newline": 'off'
     // 'jsx-quotes': ['error', 'prefer-double'],
     // "import/prefer-default-export": 'off',
     // "max-len": 0,
