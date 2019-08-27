@@ -1,5 +1,4 @@
-import { API_URL } from 'react-native-dotenv';
-
+import API_URL from '~/src/api';
 import AsyncStorage from '~/src/util/AsyncStorage';
 
 import {

@@ -12,9 +12,9 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import FastImage from 'react-native-fast-image';
-import { API_URL } from 'react-native-dotenv';
 import { connect } from 'react-redux';
 
+import API_URL from '~/src/api';
 import actions from '../../redux/actions/PratoActionCreator';
 import { Botao, BotaoTexto } from '../../styled-components/Botao';
 import {

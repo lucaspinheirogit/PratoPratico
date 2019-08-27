@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
-import { API_URL } from 'react-native-dotenv';
 
+import API_URL from '~/src/api';
 import Prato from '~/src/components/Prato';
 import { Botao, BotaoTexto } from '~/src/styled-components/Botao';
 import { ScrollWrapper } from '~/src/styled-components/Wrapper';

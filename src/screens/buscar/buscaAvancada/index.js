@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, ActivityIndicator } from 'react-native';
-import { API_URL } from 'react-native-dotenv';
 
+import API_URL from '~/src/api';
 import Prato from '~/src/components/Prato';
 import { ScrollWrapper } from '~/src/styled-components/Wrapper';
 

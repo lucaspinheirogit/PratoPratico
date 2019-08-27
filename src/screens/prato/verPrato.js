@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, ActivityIndicator, InteractionManager } from 'react-native';
-import { API_URL } from 'react-native-dotenv';
 
+import API_URL from '~/src/api';
 import PratoMax from '../../components/PratoMax';
 import { Wrapper } from '../../styled-components/Wrapper';
 
@@ -14,8 +14,8 @@ class VerPrato extends Component {
   componentDidMount() {
     InteractionManager.runAfterInteractions(async () => {
       const response = await fetch(
-        `http://localhost:5000/pratos/detalhe/${this.props.navigation.state.params.id}`
-        // `${API_URL}/pratos/detalhe/${this.props.navigation.state.params.id}`
+        // `http://localhost:5000/pratos/detalhe/${this.props.navigation.state.params.id}`
+        `${API_URL}/pratos/detalhe/${this.props.navigation.state.params.id}`
       );
       const data = await response.json();
 
