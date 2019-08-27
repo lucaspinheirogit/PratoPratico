@@ -6,13 +6,13 @@ import { H6 } from '../styled-components/Texto';
 const Ingrediente = ({ nome, quantidade, unidade }) => (
   <View style={styles.ingredientesBox}>
     <View style={styles.ingredientesColuna}>
-      <H6 style={{ color: '#000' }}>{nome}</H6>
+      <H6 style={styles.black}>{nome}</H6>
     </View>
     <View style={styles.ingredientesColuna}>
-      <H6 style={{ color: '#000' }}>{quantidade}</H6>
+      <H6 style={styles.black}>{quantidade}</H6>
     </View>
     <View style={styles.ingredientesColuna}>
-      <H6 style={{ color: '#000' }}>{unidade}</H6>
+      <H6 style={styles.black}>{unidade}</H6>
     </View>
   </View>
 );
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     color: '#000',
   },
+  black: { color: '#000' }
 });
 
 export default Ingrediente;
