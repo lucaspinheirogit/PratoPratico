@@ -1,127 +1,145 @@
-import React, { PureComponent } from 'react';
-import {
-  View, FlatList, ActivityIndicator, InteractionManager
-} from 'react-native';
+import React, { useState, useEffect } from 'react'
+import { View, FlatList, ActivityIndicator, InteractionManager, StyleSheet } from 'react-native'
 
-import API_URL from '~/src/api';
-import Prato from '~/src/components/Prato';
-import { Botao, BotaoTexto } from '~/src/styled-components/Botao';
-import { H5 } from '~/src/styled-components/Texto';
-import { Wrapper, WrapperCenter } from '~/src/styled-components/Wrapper';
-import AsyncStorage from '~/src/util/AsyncStorage';
+import API_URL from '~/src/api'
+import Prato from '~/src/components/Prato'
+import { Botao, BotaoTexto } from '~/src/styled-components/Botao'
+import { H5 } from '~/src/styled-components/Texto'
+import { Wrapper, WrapperCenter } from '~/src/styled-components/Wrapper'
+import AsyncStorage from '~/src/util/AsyncStorage'
 
-export default class Feed extends PureComponent {
-  state = {
-    favoritos: [],
+export default props => {
+  const [favoritos, setFavoritos] = useState([])
+  const [pagination, setPagination] = useState({
     limit: 2,
     offset: 0,
     hasMore: true,
     loading: true,
-    isFetching: false,
-    erro: '',
-  };
+  })
+  const [isFetching, setIsFetching] = useState(false)
+  const [erro, setErro] = useState('')
 
-  async componentDidMount() {
-    const { offset, limit } = this.state;
+  useEffect(() => {
+    const { offset, limit } = pagination
     InteractionManager.runAfterInteractions(() => {
-      this.getFavoritos(offset, limit);
-    });
+      getFavoritos(offset, limit)
+    })
+  }, [])
+
+  async function getFavoritos(offset, limit) {
+    try {
+      setErro('')
+      const response = await fetch(`${API_URL}/favoritos?offset=${offset}&limit=${limit}`, {
+        headers: {
+          Authorization: await AsyncStorage.getItem('token'),
+        },
+      })
+      const data = await response.json()
+      setFavoritos([...favoritos, ...data.pratos])
+      setPagination({
+        ...pagination,
+        offset: pagination.offset + pagination.limit,
+        hasMore: data.pagination.hasMore,
+        loading: false,
+      })
+    } catch (e) {
+      setErro('Não foi possivel carregar os favoritos, tente novamente mais tarde!')
+    }
   }
 
-  getFavoritos = async (offset, limit) => {
-    const response = await fetch(`${API_URL}/favoritos?offset=${offset}&limit=${limit}`, {
-      headers: {
-        Authorization: await AsyncStorage.getItem('token'),
-      },
-    });
-    const data = await response.json();
+  async function onRefresh() {
+    try {
+      setErro('')
+      setIsFetching(true)
+      const response = await fetch(`${API_URL}/favoritos?limit=${pagination.limit}`, {
+        headers: {
+          Authorization: await AsyncStorage.getItem('token'),
+        },
+      })
+      const data = await response.json()
 
-    this.setState({
-      favoritos: [...this.state.favoritos, ...data.pratos],
-      offset: this.state.offset + this.state.limit,
-      hasMore: data.pagination.hasMore,
-      loading: false,
-    });
-  };
+      setFavoritos([...data.pratos])
+      setPagination({
+        ...pagination,
+        offset: pagination.limit,
+        hasMore: data.pagination.hasMore,
+        loading: false,
+      })
+    } catch (e) {
+      setErro('Não foi possivel carregar os favoritos, tente novamente mais tarde!')
+    }
+    setIsFetching(false)
+  }
 
-  onRefresh = async () => {
-    this.setState({ isFetching: true });
-    const response = await fetch(`${API_URL}/favoritos?limit=${this.state.limit}`, {
-      headers: {
-        Authorization: await AsyncStorage.getItem('token'),
-      },
-    });
-    const data = await response.json();
-
-    this.setState({
-      favoritos: data.pratos,
-      offset: this.state.limit,
-      hasMore: data.pagination.hasMore,
-      loading: false,
-      isFetching: false,
-    });
-  };
-
-  renderFooter = () => (
-    <View style={{ alignItems: 'center' }}>
-      {this.state.hasMore ? (
-        <ActivityIndicator style={{ margin: 20 }} size="large" color="#1d3f72" />
-      ) : (
-        <H5 style={{ marginBottom: 80, color: '#CCC' }}>Não há mais favoritos...</H5>
-      )}
-    </View>
-  );
-
-  renderItem = ({ item }) => (
-    <Prato
-      key={item.Id}
-      id={item.Id}
-      titulo={item.Nome}
-      descricao={item.Descricao}
-      imagem={item.Foto}
-      dificuldade={item.Dificuldade}
-      navegar={this.props.navigation.navigate}
-    />
-  );
-
-  render() {
+  function renderFooter() {
     return (
-      <Wrapper>
-        {this.state.loading ? (
-          <WrapperCenter>
-            <ActivityIndicator size="large" color="#1d3f72" />
-          </WrapperCenter>
+      <View style={styles.alignCenter}>
+        {pagination.hasMore ? (
+          <ActivityIndicator style={styles.margin20} size="large" color="#1d3f72" />
         ) : (
-          <View style={{ flex: 1 }}>
-            <View>
-              {this.state.erro !== '' && <H5 style={{ color: 'red' }}>{this.state.erro}</H5>}
-              <FlatList
-                data={this.state.favoritos}
-                onRefresh={() => this.onRefresh()}
-                refreshing={this.state.isFetching}
-                renderItem={this.renderItem}
-                keyExtractor={item => item.Id.toString()}
-                onEndReached={() => {
-                  this.state.hasMore ? this.getFavoritos(this.state.offset, this.state.limit) : '';
-                }}
-                onEndReachedThreshold={0.1}
-                ListFooterComponent={this.renderFooter}
-              />
-            </View>
-            <Botao
-              style={{
-                position: 'absolute',
-                bottom: 5,
-                right: 5,
-                width: 45,
-              }}
-              onPress={() => this.props.navigation.navigate('AddPrato')}
-            >
-              <BotaoTexto style={{ fontSize: 22 }}>+</BotaoTexto>
-            </Botao>
-          </View>
+          <H5 style={styles.noMoreMessage}>Não há mais favoritos...</H5>
         )}
-      </Wrapper>
-    );
+      </View>
+    )
   }
+
+  function renderItem({ item }) {
+    return (
+      <Prato
+        key={item.Id}
+        id={item.Id}
+        titulo={item.Nome}
+        descricao={item.Descricao}
+        imagem={item.Foto}
+        dificuldade={item.Dificuldade}
+        navegar={props.navigation.navigate}
+      />
+    )
+  }
+
+  return (
+    <Wrapper>
+      {pagination.loading ? (
+        <WrapperCenter>
+          <ActivityIndicator size="large" color="#1d3f72" />
+        </WrapperCenter>
+      ) : (
+        <View style={styles.flex1}>
+          <View>
+            {erro !== '' && <H5 style={styles.erro}>{erro}</H5>}
+            <FlatList
+              data={favoritos}
+              onRefresh={onRefresh}
+              refreshing={isFetching}
+              renderItem={renderItem}
+              keyExtractor={item => item.Id.toString()}
+              onEndReached={
+                pagination.hasMore ? getFavoritos(pagination.offset, pagination.limit) : ''
+              }
+              onEndReachedThreshold={0.1}
+              ListFooterComponent={renderFooter}
+            />
+          </View>
+          <Botao style={styles.btnAddPrato} onPress={() => props.navigation.navigate('AddPrato')}>
+            <BotaoTexto style={styles.btnAddPratoText}>+</BotaoTexto>
+          </Botao>
+        </View>
+      )}
+    </Wrapper>
+  )
 }
+
+const styles = StyleSheet.create({
+  flex1: { flex: 1 },
+  erro: { color: 'red' },
+  btnAddPrato: {
+    position: 'absolute',
+    bottom: 5,
+    right: 5,
+    width: 45,
+  },
+  btnAddPratoText: { fontSize: 22 },
+  alignCenter: { alignItems: 'center' },
+  margin20: { margin: 20 },
+  noMoreMessage: { marginBottom: 80, color: '#CCC' },
+})

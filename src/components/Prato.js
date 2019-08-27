@@ -18,11 +18,9 @@ const Prato = props => {
   const [favorito, setFavorito] = useState(false)
 
   useEffect(() => {
-    setTimeout(() => {
-      if (favoritos.includes(props.id)) {
-        setFavorito(true)
-      }
-    }, 500)
+    if (favoritos.includes(id)) {
+      setFavorito(true)
+    }
   }, [])
 
   function favoritar() {
