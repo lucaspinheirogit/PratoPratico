@@ -137,9 +137,8 @@ const styles = StyleSheet.create({
   btnAlterarDados: { backgroundColor: '#184890', borderWidth: 0 },
   btnAlterarDadosText: { padding: 10, width: 120 },
   btnSair: {
-    backgroundColor: '#8e0000',
-    borderWidth: 1,
-    borderColor: '#630000',
+    backgroundColor: '#8f0310',
+    borderWidth: 0,
     minWidth: 80,
     height: 25,
   },
