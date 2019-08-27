@@ -1,26 +1,24 @@
-import React, { Component } from 'react';
-import {
-  View, FlatList, ActivityIndicator, InteractionManager
-} from 'react-native';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { View, FlatList, ActivityIndicator, InteractionManager } from 'react-native'
+import { connect } from 'react-redux'
 
-import Prato from '~/src/components/Prato';
-import actions from '~/src/redux/actions/PratoActionCreator';
-import { Botao, BotaoTexto } from '~/src/styled-components/Botao';
-import { H5 } from '~/src/styled-components/Texto';
-import { Wrapper, WrapperCenter } from '~/src/styled-components/Wrapper';
-import AsyncStorage from '~/src/util/AsyncStorage';
+import Prato from '~/src/components/Prato'
+import actions from '~/src/redux/actions/PratoActionCreator'
+import { Botao, BotaoTexto } from '~/src/styled-components/Botao'
+import { H5 } from '~/src/styled-components/Texto'
+import { Wrapper, WrapperCenter } from '~/src/styled-components/Wrapper'
+import AsyncStorage from '~/src/util/AsyncStorage'
 
 class Feed extends Component {
   componentDidMount() {
     InteractionManager.runAfterInteractions(async () => {
-      const token = await AsyncStorage.getItem('token');
+      const token = await AsyncStorage.getItem('token')
       if (!token) {
-        this.props.navigation.navigate('Home');
+        this.props.navigation.navigate('Home')
       } else {
-        this.props.getPratos(this.props.offset, this.props.limit);
+        this.props.getPratos(this.props.offset, this.props.limit)
       }
-    });
+    })
   }
 
   renderFooter = () => (
@@ -31,7 +29,7 @@ class Feed extends Component {
         <H5 style={{ marginBottom: 80, color: '#CCC' }}>Não há mais pratos...</H5>
       )}
     </View>
-  );
+  )
 
   renderItem = ({ item }) => (
     <Prato
@@ -43,7 +41,7 @@ class Feed extends Component {
       dificuldade={item.Dificuldade}
       navegar={this.props.navigation.navigate}
     />
-  );
+  )
 
   render() {
     return (
@@ -63,7 +61,7 @@ class Feed extends Component {
                 onEndReached={() => {
                   this.props.hasMore
                     ? this.props.getPratos(this.props.offset, this.props.limit)
-                    : '';
+                    : ''
                 }}
                 onEndReachedThreshold={0.1}
                 ListFooterComponent={this.renderFooter}
@@ -83,7 +81,7 @@ class Feed extends Component {
           </View>
         )}
       </Wrapper>
-    );
+    )
   }
 }
 
@@ -94,15 +92,15 @@ const mapStateToProps = state => ({
   hasMore: state.PratoReducer.hasMore,
   erro: state.PratoReducer.erro,
   loading: state.PratoReducer.loading,
-});
+})
 
 const mapDispatchToProps = dispatch => ({
   getPratos(offset, limit) {
-    dispatch(actions.getPratos(offset, limit));
+    dispatch(actions.getPratos(offset, limit))
   },
-});
+})
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Feed);
+)(Feed)

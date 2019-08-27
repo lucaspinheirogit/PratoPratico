@@ -1,4 +1,4 @@
-import API_URL from '~/src/api';
+import API_URL from '~/src/api'
 import AsyncStorage from '~/src/util/AsyncStorage'
 import NavigationService from '~/src/util/NavigationService'
 
@@ -112,44 +112,34 @@ export default {
   },
   updateUsuario(nome, senha, img, imgNome) {
     return async dispatch => {
-      if (nome === '' || nome === null) {
-        dispatch({ type: ERROR, erro: 'Nome não pode estar vazio!' })
-      } else if (senha === '' || senha === null) {
-        dispatch({ type: ERROR, erro: 'Senha não pode estar vazia!' })
-      } else {
-        dispatch({ type: LOADING_CHANGED, loading: true })
+      const body = JSON.stringify({
+        nome,
+        senha,
+        img,
+        imgNome,
+      })
 
-        const body = JSON.stringify({
-          nome,
-          senha,
-          img,
-          imgNome,
+      try {
+        const response = await fetch(`${API_URL}/usuarios`, {
+          method: 'PUT',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: await AsyncStorage.getItem('token'),
+          },
+          body,
         })
 
-        try {
-          const response = await fetch(`${API_URL}/usuarios`, {
-            method: 'PUT',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              Authorization: await AsyncStorage.getItem('token'),
-            },
-            body,
-          })
+        const data = await response.json()
 
-          const data = await response.json()
-
-          if (response.ok) {
-            dispatch({ type: UPDATE_USUARIO, nome, foto: img })
-            dispatch({ type: SUCESSO, sucesso: data.message })
-          } else {
-            throw new Error(data.message)
-          }
-        } catch (e) {
-          dispatch({ type: ERROR, erro: e.message })
+        if (response.ok) {
+          dispatch({ type: UPDATE_USUARIO, nome, foto: img })
+          dispatch({ type: SUCESSO, sucesso: data.message })
+        } else {
+          throw new Error(data.message)
         }
-
-        dispatch({ type: LOADING_CHANGED, loading: false })
+      } catch (e) {
+        dispatch({ type: ERROR, erro: e.message })
       }
     }
   },

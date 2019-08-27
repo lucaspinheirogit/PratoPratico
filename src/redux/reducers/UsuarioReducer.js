@@ -7,7 +7,7 @@ import {
   DELETE_PRATO,
   SUCESSO,
   FAVORITE,
-} from '../actionsTypes/UsuarioActionTypes';
+} from '../actionsTypes/UsuarioActionTypes'
 
 const INITIAL_STATE = {
   nome: '',
@@ -18,9 +18,9 @@ const INITIAL_STATE = {
   erro: '',
   sucesso: '',
   loading: false,
-};
+}
 
-export const UsuarioReducer = (state = INITIAL_STATE, action) => {
+export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOGIN: {
       return {
@@ -28,7 +28,7 @@ export const UsuarioReducer = (state = INITIAL_STATE, action) => {
         nome: action.nome,
         email: action.email,
         erro: '',
-      };
+      }
     }
     case GET_USUARIO: {
       return {
@@ -39,7 +39,7 @@ export const UsuarioReducer = (state = INITIAL_STATE, action) => {
         pratos: action.pratos,
         favoritos: action.favoritos,
         erro: '',
-      };
+      }
     }
     case UPDATE_USUARIO: {
       if (action.foto) {
@@ -48,46 +48,46 @@ export const UsuarioReducer = (state = INITIAL_STATE, action) => {
           nome: action.nome,
           foto: action.foto,
           erro: '',
-        };
+        }
       }
       return {
         ...state,
         nome: action.nome,
         erro: '',
-      };
+      }
     }
     case DELETE_PRATO: {
-      const pratos = state.pratos.filter(prato => prato.Id !== action.id);
+      const pratos = state.pratos.filter(prato => prato.Id !== action.id)
 
       return {
         ...state,
         pratos,
-      };
+      }
     }
     case FAVORITE: {
-      let { favoritos } = state;
+      let { favoritos } = state
       if (action.isFav) {
-        favoritos = favoritos.filter(favs => favs !== action.id);
+        favoritos = favoritos.filter(favs => favs !== action.id)
       } else {
-        favoritos.push(action.id);
+        favoritos.push(action.id)
       }
 
       return {
         ...state,
         favoritos,
-      };
+      }
     }
     case ERROR: {
       return {
         ...state,
         erro: action.erro,
-      };
+      }
     }
     case SUCESSO: {
       return {
         ...state,
         sucesso: action.sucesso,
-      };
+      }
     }
     case LOADING_CHANGED: {
       if (action.loading) {
@@ -96,14 +96,14 @@ export const UsuarioReducer = (state = INITIAL_STATE, action) => {
           loading: action.loading,
           erro: '',
           sucesso: '',
-        };
+        }
       }
       return {
         ...state,
         loading: action.loading,
-      };
+      }
     }
     default:
-      return state;
+      return state
   }
-};
+}
