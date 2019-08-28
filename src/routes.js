@@ -1,23 +1,35 @@
-import React from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import React from 'react'
+import Icon from 'react-native-vector-icons/FontAwesome5'
 import {
   createAppContainer,
   createSwitchNavigator,
   createStackNavigator,
-  createBottomTabNavigator
-} from 'react-navigation';
+  createBottomTabNavigator,
+} from 'react-navigation'
 
-import Buscar from './screens/buscar';
+import AuthLoadingScreen from './screens/AuthLoadingScreen'
+import Buscar from './screens/buscar'
 import Inicio from './screens/inicio'
-import Home from './screens/home';
-import Login from './screens/login';
-import Signup from './screens/signup';
-import { CriarPrato, VerPrato, EditarPrato } from './screens/prato';
-import {
-  Perfil
-} from './screens/usuario';
+import Home from './screens/home'
+import Login from './screens/login'
+import Signup from './screens/signup'
+import { CriarPrato, VerPrato, EditarPrato } from './screens/prato'
+import { Perfil } from './screens/usuario'
+import AlterarDados from './screens/usuario/alterarDados'
 
-import AlterarDados from './screens/usuario/alterarDados/index'
+const stackNavigationOptions = {
+  headerLayoutPreset: 'center',
+  defaultNavigationOptions: () => ({
+    headerTitleStyle: {
+      color: '#FFF',
+      flex: 1,
+    },
+    headerStyle: {
+      backgroundColor: '#305c9b',
+    },
+    headerTintColor: '#fff',
+  }),
+}
 
 const BottomTabNavigator = createBottomTabNavigator(
   {
@@ -60,9 +72,9 @@ const BottomTabNavigator = createBottomTabNavigator(
       },
     },
   }
-);
+)
 
-const StackNavigator = createStackNavigator(
+const AuthStack = createStackNavigator(
   {
     Home: {
       screen: Home,
@@ -82,10 +94,16 @@ const StackNavigator = createStackNavigator(
         title: 'CADASTRO',
       },
     },
-    AlterarDados: {
-      screen: AlterarDados,
+  },
+  stackNavigationOptions
+)
+
+const AppStack = createStackNavigator(
+  {
+    TabNavigator: {
+      screen: BottomTabNavigator,
       navigationOptions: {
-        title: 'Alterar dados',
+        header: null,
       },
     },
     AddPrato: {
@@ -106,34 +124,25 @@ const StackNavigator = createStackNavigator(
         title: 'Editar Prato',
       },
     },
-    TabNavigator: {
-      screen: BottomTabNavigator,
+    AlterarDados: {
+      screen: AlterarDados,
       navigationOptions: {
-        header: null,
+        title: 'Alterar dados',
       },
     },
   },
-  {
-    headerLayoutPreset: 'center',
-    defaultNavigationOptions: () => ({
-      headerTitleStyle: {
-        color: '#FFF',
-        flex: 1,
-      },
-      headerStyle: {
-        backgroundColor: '#305c9b',
-      },
-      headerTintColor: '#fff',
-    }),
-  }
-);
+  stackNavigationOptions
+)
 
 const AppSwitchNavigator = createSwitchNavigator(
   {
-    // AlterarDadosTeste
-    StackNavigator,
+    AuthLoading: AuthLoadingScreen,
+    App: AppStack,
+    Auth: AuthStack,
   },
-  {}
-);
+  {
+    initialRouteName: 'AuthLoading',
+  }
+)
 
-export default createAppContainer(AppSwitchNavigator);
+export default createAppContainer(AppSwitchNavigator)

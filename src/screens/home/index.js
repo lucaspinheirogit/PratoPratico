@@ -1,21 +1,19 @@
-import React from 'react';
-import { View, TouchableWithoutFeedback } from 'react-native';
-import FastImage from 'react-native-fast-image';
+import React from 'react'
+import { View } from 'react-native'
+import FastImage from 'react-native-fast-image'
 
-import Logo from '~/src/img/logo.png';
-import { Botao, BotaoTexto } from '~/src/styled-components/Botao';
-import { H6 } from '~/src/styled-components/Texto';
-import { ScrollWrapperCenter } from '~/src/styled-components/Wrapper';
+import Logo from '~/src/img/logo.png'
+import { Botao, BotaoTexto } from '~/src/styled-components/Botao'
+import { H6 } from '~/src/styled-components/Texto'
+import { ScrollWrapperCenter } from '~/src/styled-components/Wrapper'
 
-import styles from './styles';
+import styles from './styles'
 
-export default (props) => (
+export default props => (
   <ScrollWrapperCenter>
-    <TouchableWithoutFeedback onPress={() => props.navigation.navigate('TabNavigator')}>
-      <View style={styles.logoContainer}>
-        <FastImage style={styles.logo} source={Logo} />
-      </View>
-    </TouchableWithoutFeedback>
+    <View style={styles.logoContainer}>
+      <FastImage style={styles.logo} source={Logo} />
+    </View>
     <View style={styles.loginView}>
       <Botao style={styles.btnLogin} onPress={() => props.navigation.navigate('Login')}>
         <BotaoTexto>Login</BotaoTexto>
@@ -26,4 +24,4 @@ export default (props) => (
       </Botao>
     </View>
   </ScrollWrapperCenter>
-);
+)
