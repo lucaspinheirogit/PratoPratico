@@ -18,12 +18,12 @@ module.exports = {
     "no-shadow": 'off',
     "space-before-function-paren": 'off',
     "space-before-blocks": 'off',
-    "object-curly-newline": 'off'
+    "object-curly-newline": 'off',
+    "no-unused-expressions": 'off',
     // 'jsx-quotes': ['error', 'prefer-double'],
     // "import/prefer-default-export": 'off',
     // "max-len": 0,
     // "react/no-access-state-in-setstate": 0,
-    // "no-unused-expressions": 0,
   },
   'globals': {
     "fetch": false

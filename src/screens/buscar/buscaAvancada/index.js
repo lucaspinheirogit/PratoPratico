@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
-import { Text, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react'
+import { Text } from 'react-native'
 
-import API_URL from '~/src/api';
-import Prato from '~/src/components/Prato';
-import { ScrollWrapper } from '~/src/styled-components/Wrapper';
+import API_URL from '~/src/api'
+import Prato from '~/src/components/Prato'
+import { ScrollWrapper } from '~/src/styled-components/Wrapper'
 
-import AdvancedSearch from './advancedSearch';
-import PratosList from '../pratosList';
-import styles from '../styles';
+import AdvancedSearch from './form'
+import PratosList from '../pratosList'
+import styles from '../styles'
 
-export default (props) => {
-  const [pratos, setPratos] = useState([]);
-  const [mensagem, setMensagem] = useState('');
-  const [loading, setLoading] = useState(false);
+export default props => {
+  const [pratos, setPratos] = useState([])
+  const [mensagem, setMensagem] = useState('')
 
   function renderItem({ item }) {
     return (
@@ -25,18 +24,18 @@ export default (props) => {
         dificuldade={item.Dificuldade}
         navegar={props.navigation.navigate}
       />
-    );
+    )
   }
 
-  async function buscaAvancada(nome, tempo, dificuldade, ing) {
-    setMensagem('');
-    setLoading(true);
+  async function handleSubmit({ nome, tempo, dificuldade, ing }, { setSubmitting }) {
+    setPratos([])
+    setMensagem('')
 
-    let ingredientes = null;
-    nome ? '' : (nome = null);
-    tempo ? (tempo *= 60) : (tempo = null);
-    ing ? (ingredientes = ing.split(',')) : '';
-    dificuldade === 'Qualquer' ? (dificuldade = null) : '';
+    let ingredientes = null
+    nome ? '' : (nome = null)
+    tempo ? (tempo *= 60) : (tempo = null)
+    ing ? (ingredientes = ing.split(',')) : ''
+    dificuldade === 'Qualquer' ? (dificuldade = null) : ''
 
     const response = await fetch(`${API_URL}/pratos/search`, {
       method: 'POST',
@@ -50,28 +49,22 @@ export default (props) => {
         dificuldade,
         ingredientes,
       }),
-    });
+    })
 
-    const data = await response.json();
+    const data = await response.json()
     if (data.length > 0) {
-      setPratos(data);
-      setLoading(false);
+      setPratos(data)
     } else {
-      setPratos([]);
-      setMensagem('Nenhum resultado encontrado');
-      setLoading(false);
+      setMensagem('Nenhum resultado encontrado')
     }
+    setSubmitting(false)
   }
 
   return (
     <ScrollWrapper style={styles.paddingY10}>
-      <AdvancedSearch busca={buscaAvancada} />
-      {loading ? (
-        <ActivityIndicator style={styles.marginTop150} size="large" color="#1d3f72" />
-      ) : (
-        <PratosList pratos={pratos} renderItem={renderItem} />
-      )}
+      <AdvancedSearch onSubmit={handleSubmit} />
+      <PratosList pratos={pratos} renderItem={renderItem} />
       <Text style={styles.center}>{mensagem}</Text>
     </ScrollWrapper>
-  );
-};
+  )
+}
