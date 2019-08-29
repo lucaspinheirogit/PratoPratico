@@ -23,6 +23,9 @@ export default createMaterialTopTabNavigator(
     },
   },
   {
+    navigationOptions: {
+      transitionConfig: () => ({ screenInterpolator: () => null }),
+    },
     lazy: true,
     optimizationsEnabled: true,
     tabBarOptions: {

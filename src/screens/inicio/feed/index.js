@@ -11,7 +11,7 @@ import AsyncStorage from '~/src/util/AsyncStorage'
 
 const Feed = props => {
   const dispatch = useDispatch()
-  const { pratos, offset, limit, hasMore, erro, loading } = useSelector(state => state.PratoReducer)
+  const { pratos, offset, limit, hasMore, erro } = useSelector(state => state.PratoReducer)
 
   useEffect(() => {
     InteractionManager.runAfterInteractions(async () => {
@@ -55,7 +55,7 @@ const Feed = props => {
   }
   return (
     <Wrapper>
-      {loading ? (
+      {!pratos.length ? (
         <WrapperCenter>
           <ActivityIndicator size="large" color="#1d3f72" />
         </WrapperCenter>

@@ -1,44 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  Alert,
-  ActivityIndicator,
-  Image,
-  InteractionManager,
-} from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { View, StyleSheet, Alert, ActivityIndicator, Image, InteractionManager } from 'react-native'
+import { useSelector, useDispatch } from 'react-redux'
 
-import PratoPerfil from '~/src/components/PratoPerfil';
-import pratoActions from '~/src/redux/actions/PratoActionCreator';
-import usuarioActions from '~/src/redux/actions/UsuarioActionCreator';
-import { Botao, BotaoTexto } from '~/src/styled-components/Botao';
-import { H4, H5 } from '~/src/styled-components/Texto';
-import { ScrollWrapperCenter, WrapperCenter, Wrapper } from '~/src/styled-components/Wrapper';
-import AsyncStorage from '~/src/util/AsyncStorage';
+import PratoPerfil from '~/src/components/PratoPerfil'
+import pratoActions from '~/src/redux/actions/PratoActionCreator'
+import usuarioActions from '~/src/redux/actions/UsuarioActionCreator'
+import { Botao, BotaoTexto } from '~/src/styled-components/Botao'
+import { H4, H5 } from '~/src/styled-components/Texto'
+import { ScrollWrapperCenter, WrapperCenter, Wrapper } from '~/src/styled-components/Wrapper'
+import AsyncStorage from '~/src/util/AsyncStorage'
 
-export default (props) => {
-  const [loading, setLoading] = useState(false);
-  const {
-    nome, email, foto, pratos, erro, sucesso
-  } = useSelector((state) => state.UsuarioReducer);
-  const dispatch = useDispatch();
+export default props => {
+  const [loading, setLoading] = useState(true)
+  const { nome, email, foto, pratos, erro, sucesso } = useSelector(state => state.UsuarioReducer)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     InteractionManager.runAfterInteractions(async () => {
-      const token = await AsyncStorage.getItem('token');
-      if (!token) {
-        props.navigation.navigate('Home');
-      } else {
-        setLoading(true);
-        fetchUsuario()
-        setLoading(false);
-      }
-    });
-  }, []);
+      await fetchUsuario()
+      setLoading(false)
+    })
+  }, [])
 
-  async function fetchUsuario(){
-    await dispatch(usuarioActions.getUsuario());
+  async function fetchUsuario() {
+    await dispatch(usuarioActions.getUsuario())
   }
 
   function excluir(id) {
@@ -53,7 +38,7 @@ export default (props) => {
         { text: 'Sim', onPress: () => dispatch(pratoActions.delete(id)) },
       ],
       { cancelable: true }
-    );
+    )
   }
 
   return (
@@ -79,8 +64,8 @@ export default (props) => {
             <Botao
               style={styles.btnSair}
               onPress={async () => {
-                await AsyncStorage.removeItem('token');
-                props.navigation.navigate('Home');
+                await AsyncStorage.removeItem('token')
+                props.navigation.navigate('Home')
               }}
             >
               <BotaoTexto style={styles.paddingY10}>Sair</BotaoTexto>
@@ -89,10 +74,8 @@ export default (props) => {
             <H5 style={styles.greenText}>{sucesso}</H5>
           </WrapperCenter>
           <Wrapper style={styles.bgColorSecundary}>
-            <H4 style={styles.label}>
-              Meus pratos({pratos.length}):
-            </H4>
-            {pratos.map((prato) => (
+            <H4 style={styles.label}>Meus pratos({pratos.length}):</H4>
+            {pratos.map(prato => (
               <PratoPerfil
                 key={prato.Id}
                 id={prato.Id}
@@ -107,8 +90,8 @@ export default (props) => {
         </Wrapper>
       )}
     </ScrollWrapperCenter>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   ImgContainer: {
@@ -159,4 +142,4 @@ const styles = StyleSheet.create({
     borderColor: '#184890',
     marginTop: 10,
   },
-});
+})

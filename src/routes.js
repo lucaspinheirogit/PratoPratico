@@ -18,6 +18,7 @@ import { Perfil } from './screens/usuario'
 import AlterarDados from './screens/usuario/alterarDados'
 
 const stackNavigationOptions = {
+  transitionConfig: () => ({ screenInterpolator: () => null }),
   headerLayoutPreset: 'center',
   defaultNavigationOptions: () => ({
     headerTitleStyle: {
@@ -53,6 +54,9 @@ const BottomTabNavigator = createBottomTabNavigator(
     },
   },
   {
+    navigationOptions: {
+      transitionConfig: () => ({ screenInterpolator: () => null }),
+    },
     lazy: true,
     optimizationsEnabled: true,
     tabBarOptions: {

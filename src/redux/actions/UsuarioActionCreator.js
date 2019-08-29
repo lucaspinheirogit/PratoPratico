@@ -27,10 +27,9 @@ export default {
 
         const data = await response.json()
         if (response.ok) {
-          await AsyncStorage.setItem('token', data.token).then(() => {
-            dispatch({ type: LOGIN, nome: data.username, email })
-            NavigationService.navigate('TabNavigator', {})
-          })
+          await AsyncStorage.setItem('token', data.token)
+          dispatch({ type: LOGIN, nome: data.username, email })
+          NavigationService.navigate('TabNavigator', {})
         } else {
           throw new Error(data)
         }
@@ -67,9 +66,8 @@ export default {
         const data = await response.json()
 
         if (response.ok) {
-          await AsyncStorage.setItem('token', data.token).then(() => {
-            NavigationService.navigate('TabNavigator', {})
-          })
+          await AsyncStorage.setItem('token', data.token)
+          NavigationService.navigate('TabNavigator', {})
         } else {
           throw new Error(data)
         }
@@ -146,7 +144,6 @@ export default {
   renewUsuario() {
     return async () => {
       const response = await fetch(`${API_URL}/auth/renew`, {
-        method: 'GET',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -156,9 +153,8 @@ export default {
 
       const data = await response.json()
       if (response.ok && data.token !== undefined) {
-        await AsyncStorage.setItem('token', data.token).then(() => {
-          NavigationService.navigate('TabNavigator')
-        })
+        await AsyncStorage.setItem('token', data.token)
+        NavigationService.navigate('TabNavigator')
       } else {
         await AsyncStorage.removeItem('token')
       }

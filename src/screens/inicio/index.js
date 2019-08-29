@@ -21,6 +21,7 @@ export default createMaterialTopTabNavigator(
     },
   },
   {
+    animationEnabled: false,
     lazy: true,
     optimizationsEnabled: true,
     tabBarOptions: {
