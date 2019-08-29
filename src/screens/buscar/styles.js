@@ -28,5 +28,17 @@ export default StyleSheet.create({
   },
   selectColor: { color: '#0d2b56' },
   btnBuscar: { alignSelf: 'flex-end', width: 100 },
+  btnBuscarFull: {
+    borderRadius: 0,
+    borderWidth: 0,
+    alignSelf: 'stretch',
+    marginVertical: 0,
+    marginHorizontal: 0,
+    height: 42,
+    backgroundColor: '#0d2b56',
+    justifyContent: 'center',
+    // #0d2b56 #113870 #305c9b
+  },
   inputErro: { textAlign: 'right', color: 'red', width: '100%' },
+  flex1: { flex: 1 },
 })
