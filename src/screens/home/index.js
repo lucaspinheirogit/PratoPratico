@@ -7,6 +7,7 @@ import { Botao, BotaoTexto } from '~/src/styled-components/Botao'
 import { H6 } from '~/src/styled-components/Texto'
 import { ScrollWrapperCenter } from '~/src/styled-components/Wrapper'
 
+import GoogleSignin from './googleSignin'
 import styles from './styles'
 
 export default props => (
@@ -22,6 +23,7 @@ export default props => (
       <Botao onPress={() => props.navigation.navigate('Signup')}>
         <BotaoTexto>Cadastrar-se</BotaoTexto>
       </Botao>
+      <GoogleSignin />
     </View>
   </ScrollWrapperCenter>
 )

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "896186886067",
+    "firebase_url": "https://pratopratico-ebbc3.firebaseio.com",
+    "project_id": "pratopratico-ebbc3",
+    "storage_bucket": "pratopratico-ebbc3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896186886067:android:69455577eefa65e7",
+        "android_client_info": {
+          "package_name": "com.pratopratico"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "896186886067-jtrgdajd8f0e7r9e7vjnbf81b942m4a3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pratopratico",
+            "certificate_hash": "e28ab25a34c603cfde4f07b0e2457782ab5d5708"
+          }
+        },
+        {
+          "client_id": "896186886067-sdf3ha36eb2p9nadbp3e9pej95kni62d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZLKPbNVeLCf7PWMjURLmXOJ3HTMPfyJI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "896186886067-sdf3ha36eb2p9nadbp3e9pej95kni62d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
