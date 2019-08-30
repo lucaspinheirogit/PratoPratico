@@ -38,6 +38,31 @@ export default {
       }
     }
   },
+  // loginWithGoogle(email, nome) {
+  //   return async dispatch => {
+  //     try {
+  //       const response = await fetch(`${API_URL}/auth/loginWithGoogle`, {
+  //         method: 'POST',
+  //         headers: {
+  //           Accept: 'application/json',
+  //           'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify({ email, nome }),
+  //       })
+
+  //       const data = await response.json()
+  //       if (response.ok) {
+  //         await AsyncStorage.setItem('token', data.token)
+  //         dispatch({ type: LOGIN, nome: data.username, email })
+  //         NavigationService.navigate('TabNavigator', {})
+  //       } else {
+  //         throw new Error(data)
+  //       }
+  //     } catch (e) {
+  //       dispatch({ type: ERROR, erro: e.message })
+  //     }
+  //   }
+  // },
   signup(nome, email, senha, img, imgNome) {
     return async dispatch => {
       if (img === '' || img === null) {

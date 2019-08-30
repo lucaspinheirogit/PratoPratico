@@ -16,5 +16,8 @@ export default StyleSheet.create({
     marginBottom: 20,
   },
   btnLogin: { minWidth: 80 },
-  message: { marginTop: 15 }
+  message: { marginTop: 15 },
+  signInContainer: {
+    flexDirection: 'row'
+  }
 });

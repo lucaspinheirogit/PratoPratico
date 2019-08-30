@@ -7,7 +7,7 @@ import { Botao, BotaoTexto } from '~/src/styled-components/Botao'
 import { H6 } from '~/src/styled-components/Texto'
 import { ScrollWrapperCenter } from '~/src/styled-components/Wrapper'
 
-import GoogleSignin from './googleSignin'
+// import GoogleSignin from './googleSignin'
 import styles from './styles'
 
 export default props => (
@@ -16,14 +16,16 @@ export default props => (
       <FastImage style={styles.logo} source={Logo} />
     </View>
     <View style={styles.loginView}>
-      <Botao style={styles.btnLogin} onPress={() => props.navigation.navigate('Login')}>
+      <Botao style={[styles.btnLogin, { backgroundColor: '#1d4885' }]} onPress={() => props.navigation.navigate('Login')}>
         <BotaoTexto>Login</BotaoTexto>
       </Botao>
       <H6 style={styles.message}>Não possui uma conta? Cadastre-se gratuitamente!</H6>
-      <Botao onPress={() => props.navigation.navigate('Signup')}>
-        <BotaoTexto>Cadastrar-se</BotaoTexto>
-      </Botao>
-      <GoogleSignin />
+      <View style={styles.signInContainer}>
+        <Botao style={[styles.btnLogin, { backgroundColor: '#1d4885' }]} onPress={() => props.navigation.navigate('Signup')}>
+          <BotaoTexto>Cadastrar-se</BotaoTexto>
+        </Botao>
+        {/* <GoogleSignin /> */}
+      </View>
     </View>
   </ScrollWrapperCenter>
 )
