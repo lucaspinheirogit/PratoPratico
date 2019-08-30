@@ -49,7 +49,7 @@ const Prato = props => {
         </LinearGradient>
       </FastImage>
       <TituloPrato>{titulo}</TituloPrato>
-      <DescricaoPrato>{descricao}</DescricaoPrato>
+      <DescricaoPrato>{descricao}...</DescricaoPrato>
       <Botao style={styles.marginBottom10} onPress={() => props.navegar('VerPrato', { id })}>
         <BotaoTexto style={styles.paddingHorizontal15}>Ver mais</BotaoTexto>
       </Botao>
