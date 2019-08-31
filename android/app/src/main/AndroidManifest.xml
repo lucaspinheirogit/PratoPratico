@@ -13,6 +13,9 @@
       android:roundIcon="@drawable/icon"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+      <meta-data
+        android:name="com.google.android.gms.ads.APPLICATION_ID"
+        android:value="ca-app-pub-2493544327708083~1516321561"/>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
