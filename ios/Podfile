@@ -29,6 +29,8 @@ target 'PratoPratico' do
 
   pod 'RNGoogleSignin', :path => '../node_modules/react-native-google-signin'
 
+  pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
+
   target 'PratoPraticoTests' do
     inherit! :search_paths
     # Pods for testing
