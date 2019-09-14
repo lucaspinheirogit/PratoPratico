@@ -62,6 +62,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         pratos,
+        erro: '',
       }
     }
     case FAVORITE: {
@@ -75,6 +76,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         favoritos,
+        erro: '',
       }
     }
     case ERROR: {
@@ -87,6 +89,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         sucesso: action.sucesso,
+        erro: '',
       }
     }
     case LOADING_CHANGED: {

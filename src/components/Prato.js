@@ -20,8 +20,10 @@ const Prato = props => {
   useEffect(() => {
     if (favoritos.includes(id)) {
       setFavorito(true)
+    } else {
+      setFavorito(false)
     }
-  }, [])
+  }, [favoritos])
 
   function favoritar() {
     setFavorito(!favorito)

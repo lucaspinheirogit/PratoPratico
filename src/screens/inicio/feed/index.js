@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, FlatList, ActivityIndicator, InteractionManager, StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -12,6 +12,7 @@ import AsyncStorage from '~/src/util/AsyncStorage'
 const Feed = props => {
   const dispatch = useDispatch()
   const { pratos, offset, limit, hasMore, erro } = useSelector(state => state.PratoReducer)
+  const [isFetching, setIsFetching] = useState(false)
 
   useEffect(() => {
     InteractionManager.runAfterInteractions(async () => {
@@ -53,6 +54,15 @@ const Feed = props => {
       />
     )
   }
+
+  async function onRefresh() {
+    setIsFetching(true)
+
+    dispatch(actions.getPratos(0, limit))
+
+    setIsFetching(false)
+  }
+
   return (
     <Wrapper>
       {!pratos.length ? (
@@ -64,6 +74,8 @@ const Feed = props => {
           <View>
             {erro !== '' && <H5 style={styles.erro}>{erro}</H5>}
             <FlatList
+              onRefresh={onRefresh}
+              refreshing={isFetching}
               data={pratos}
               renderItem={renderItem}
               keyExtractor={item => item.Id.toString()}

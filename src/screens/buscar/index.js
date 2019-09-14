@@ -10,7 +10,7 @@ export default createMaterialTopTabNavigator(
     BuscaNormal: {
       screen: BuscaNormal,
       navigationOptions: {
-        tabBarLabel: 'BUSCA NORMAL',
+        tabBarLabel: 'BUSCA RÁPIDA',
         tabBarIcon: ({ tintColor }) => <Icon name="search" size={18} color={tintColor} />,
       },
     },

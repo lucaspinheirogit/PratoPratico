@@ -4,12 +4,13 @@ import {
   ERROR,
   SUCESSO,
   SUCESSO_INGREDIENT,
+  CLEAR_PRATOS,
 } from '../actionsTypes/PratoActionTypes'
 
 const INITIAL_STATE = {
   pratos: [],
   offset: 0,
-  limit: 5,
+  limit: 2,
   hasMore: true,
   loading: false,
   erro: '',
@@ -25,6 +26,15 @@ export default (state = INITIAL_STATE, action) => {
         pratos: [...state.pratos, ...action.pratos],
         offset: state.offset + state.limit,
         hasMore: action.hasMore,
+        erro: ''
+      }
+    }
+    case CLEAR_PRATOS: {
+      return {
+        ...state,
+        pratos: [],
+        offset: 0,
+        erro: ''
       }
     }
     case LOADING_CHANGED: {
@@ -52,12 +62,14 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         sucesso: action.sucesso,
+        erro: ''
       }
     }
     case SUCESSO_INGREDIENT: {
       return {
         ...state,
         sucessoIngredient: action.sucesso,
+        erro: ''
       }
     }
     default:

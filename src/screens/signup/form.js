@@ -84,6 +84,10 @@ const LoginForm = (props) => {
                   }}
                   onSubmitEditing={focusSenha}
                   blurOnSubmit={false}
+                  autoCapitalize="none"
+                  autoCompleteType="email"
+                  autoCorrect={false}
+                  keyboardType="email-address"
                 />
                 <H5 style={styles.inputErro}>{props.errors.email}</H5>
               </View>

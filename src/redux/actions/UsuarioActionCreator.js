@@ -167,7 +167,7 @@ export default {
     }
   },
   renewUsuario() {
-    return async () => {
+    return async dispatch => {
       const response = await fetch(`${API_URL}/auth/renew`, {
         headers: {
           Accept: 'application/json',
@@ -179,6 +179,30 @@ export default {
       const data = await response.json()
       if (response.ok && data.token !== undefined) {
         await AsyncStorage.setItem('token', data.token)
+        try {
+          const response = await fetch(`${API_URL}/usuarios`, {
+            headers: {
+              Authorization: await AsyncStorage.getItem('token'),
+            },
+          })
+
+          const data = await response.json()
+
+          if (response.ok) {
+            dispatch({
+              type: GET_USUARIO,
+              nome: data.Nome,
+              email: data.Email,
+              foto: data.img,
+              pratos: data.pratos,
+              favoritos: data.favoritos,
+            })
+          } else {
+            throw new Error(data.message)
+          }
+        } catch (e) {
+          dispatch({ type: ERROR, erro: e.message })
+        }
         NavigationService.navigate('TabNavigator')
       } else {
         await AsyncStorage.removeItem('token')

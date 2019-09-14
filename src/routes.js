@@ -9,11 +9,11 @@ import {
 
 import AuthLoadingScreen from './screens/AuthLoadingScreen'
 import Buscar from './screens/buscar'
-import Inicio from './screens/inicio'
 import Home from './screens/home'
+import Inicio from './screens/inicio'
 import Login from './screens/login'
-import Signup from './screens/signup'
 import { CriarPrato, VerPrato, EditarPrato } from './screens/prato'
+import Signup from './screens/signup'
 import { Perfil } from './screens/usuario'
 import AlterarDados from './screens/usuario/alterarDados'
 
@@ -26,7 +26,7 @@ const stackNavigationOptions = {
       flex: 1,
     },
     headerStyle: {
-      backgroundColor: '#305c9b',
+      backgroundColor: '#0f3163',
     },
     headerTintColor: '#fff',
   }),

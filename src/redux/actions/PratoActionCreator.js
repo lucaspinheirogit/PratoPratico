@@ -7,6 +7,7 @@ import {
   ERROR,
   SUCESSO,
   SUCESSO_INGREDIENT,
+  CLEAR_PRATOS,
 } from '../actionsTypes/PratoActionTypes'
 import { SUCESSO as SUCESSO_USUARIO, DELETE_PRATO } from '../actionsTypes/UsuarioActionTypes'
 
@@ -22,6 +23,7 @@ export default {
         const data = await response.json()
 
         if (response.ok) {
+          if (offset === 0) dispatch({ type: CLEAR_PRATOS })
           dispatch({ type: GET_PRATOS, pratos: data.pratos, hasMore: data.pagination.hasMore })
         } else {
           throw new Error(data)
