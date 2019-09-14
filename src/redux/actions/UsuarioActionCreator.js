@@ -29,6 +29,30 @@ export default {
         if (response.ok) {
           await AsyncStorage.setItem('token', data.token)
           dispatch({ type: LOGIN, nome: data.username, email })
+          try {
+            const response = await fetch(`${API_URL}/usuarios`, {
+              headers: {
+                Authorization: await AsyncStorage.getItem('token'),
+              },
+            })
+
+            const data = await response.json()
+
+            if (response.ok) {
+              dispatch({
+                type: GET_USUARIO,
+                nome: data.Nome,
+                email: data.Email,
+                foto: data.img,
+                pratos: data.pratos,
+                favoritos: data.favoritos,
+              })
+            } else {
+              throw new Error(data.message)
+            }
+          } catch (e) {
+            dispatch({ type: ERROR, erro: e.message })
+          }
           NavigationService.navigate('TabNavigator', {})
         } else {
           throw new Error(data)
@@ -92,6 +116,30 @@ export default {
 
         if (response.ok) {
           await AsyncStorage.setItem('token', data.token)
+          try {
+            const response = await fetch(`${API_URL}/usuarios`, {
+              headers: {
+                Authorization: await AsyncStorage.getItem('token'),
+              },
+            })
+
+            const data = await response.json()
+
+            if (response.ok) {
+              dispatch({
+                type: GET_USUARIO,
+                nome: data.Nome,
+                email: data.Email,
+                foto: data.img,
+                pratos: data.pratos,
+                favoritos: data.favoritos,
+              })
+            } else {
+              throw new Error(data.message)
+            }
+          } catch (e) {
+            dispatch({ type: ERROR, erro: e.message })
+          }
           NavigationService.navigate('TabNavigator', {})
         } else {
           throw new Error(data)
