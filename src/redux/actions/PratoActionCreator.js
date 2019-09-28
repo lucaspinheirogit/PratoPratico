@@ -33,19 +33,21 @@ export default {
       }
     }
   },
-  create(nome, descricao, ingredientes, modo, tempo, dificuldade, foto, fotoNome) {
+  create(nome, descricao, ingredientes, modo, tempo, dificuldade, img) {
     return async dispatch => {
-      const body = JSON.stringify({
-        nome,
-        descricao,
-        ingredientes,
-        modo,
-        tempo,
-        publica: true,
-        dificuldade,
-        foto,
-        fotoNome,
-      })
+      const formData = new FormData()
+      formData.append('nome', nome)
+      formData.append('descricao', descricao)
+      formData.append('ingredientes', ingredientes)
+      formData.append('modo', modo)
+      formData.append('tempo', tempo)
+      formData.append('publica', 1)
+      formData.append('dificuldade', dificuldade)
+      formData.append('fileData', {
+        uri: img.uri,
+        type: img.type,
+        name: img.fileName
+      });
 
       dispatch({ type: LOADING_CHANGED, loading: true })
 
@@ -54,10 +56,9 @@ export default {
           method: 'POST',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
             Authorization: await AsyncStorage.getItem('token'),
           },
-          body,
+          body: formData,
         })
 
         const data = await response.json()
