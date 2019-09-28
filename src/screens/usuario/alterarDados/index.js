@@ -16,7 +16,7 @@ const Login = () => {
 
   async function handleSubmit(values, setSubmitting) {
     const { nome, senha, image } = values
-    await dispatch(actions.updateUsuario(nome, senha, image, 'ProfilePicture'))
+    await dispatch(actions.updateUsuario(nome, senha, image))
     setSubmitting(false)
   }
 

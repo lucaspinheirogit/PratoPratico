@@ -62,54 +62,27 @@ export default {
       }
     }
   },
-  // loginWithGoogle(email, nome) {
-  //   return async dispatch => {
-  //     try {
-  //       const response = await fetch(`${API_URL}/auth/loginWithGoogle`, {
-  //         method: 'POST',
-  //         headers: {
-  //           Accept: 'application/json',
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify({ email, nome }),
-  //       })
 
-  //       const data = await response.json()
-  //       if (response.ok) {
-  //         await AsyncStorage.setItem('token', data.token)
-  //         dispatch({ type: LOGIN, nome: data.username, email })
-  //         NavigationService.navigate('TabNavigator', {})
-  //       } else {
-  //         throw new Error(data)
-  //       }
-  //     } catch (e) {
-  //       dispatch({ type: ERROR, erro: e.message })
-  //     }
-  //   }
-  // },
-  signup(nome, email, senha, img, imgNome) {
+  signup(nome, email, senha, img) {
     return async dispatch => {
-      if (img === '' || img === null) {
-        const json = require('../../img/defaultUser.json')
-        img = json.base64
-      }
-
-      const body = JSON.stringify({
-        nome,
-        email,
-        senha,
-        img,
-        imgNome,
-      })
+      const formData = new FormData()
+      formData.append('nome', nome)
+      formData.append('email', email)
+      formData.append('senha', senha)
+      formData.append('fileData', {
+        uri: img.uri,
+        type: img.type,
+        name: img.fileName
+      });
 
       try {
         const response = await fetch(`${API_URL}/auth/signup`, {
           method: 'POST',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
           },
-          body,
+          body: formData,
         })
 
         const data = await response.json()
@@ -145,6 +118,7 @@ export default {
           throw new Error(data)
         }
       } catch (e) {
+        console.log(e)
         dispatch({ type: ERROR, erro: e.message })
       }
     }
@@ -181,30 +155,31 @@ export default {
       dispatch({ type: LOADING_CHANGED, loading: false })
     }
   },
-  updateUsuario(nome, senha, img, imgNome) {
+  updateUsuario(nome, senha, img) {
     return async dispatch => {
-      const body = JSON.stringify({
-        nome,
-        senha,
-        img,
-        imgNome,
-      })
+      const formData = new FormData()
+      formData.append('nome', nome)
+      formData.append('senha', senha)
+      formData.append('fileData', {
+        uri: img.uri,
+        type: img.type,
+        name: img.fileName
+      });
 
       try {
         const response = await fetch(`${API_URL}/usuarios`, {
           method: 'PUT',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
             Authorization: await AsyncStorage.getItem('token'),
           },
-          body,
+          body: formData,
         })
 
         const data = await response.json()
 
         if (response.ok) {
-          dispatch({ type: UPDATE_USUARIO, nome, foto: img })
+          dispatch({ type: UPDATE_USUARIO, nome, foto: img.uri })
           dispatch({ type: SUCESSO, sucesso: data.message })
         } else {
           throw new Error(data.message)

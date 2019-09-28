@@ -26,7 +26,9 @@ module.exports = {
     // "react/no-access-state-in-setstate": 0,
   },
   'globals': {
-    "fetch": false
+    "fetch": false,
+    "FormData": false,
+    "File": false,
   },
   "settings": {
     "import/resolver": {

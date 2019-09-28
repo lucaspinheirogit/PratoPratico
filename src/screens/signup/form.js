@@ -13,7 +13,6 @@ import styles from './styles'
 
 const LoginForm = (props) => {
   const [image, setImage] = useState(null);
-  const [displayImage, setDisplayImage] = useState(null);
 
   let emailInput = null;
   let senhaInput = null;
@@ -38,10 +37,7 @@ const LoginForm = (props) => {
 
     ImagePicker.showImagePicker(options, (response) => {
       if (!response.didCancel && !response.error) {
-        const source = `data:image/jpeg;base64,${response.data}`;
-
-        setImage(source);
-        setDisplayImage(response.uri);
+        setImage(response);
       }
     });
   }
@@ -54,7 +50,7 @@ const LoginForm = (props) => {
         senha: '',
       }}
       onSubmit={(values, { setSubmitting }) => props.onSubmit({ ...values, image }, setSubmitting)}
-      validationSchema={validationSchema}
+      // validationSchema={validationSchema}
     >
       {(props) => (
         <View style={styles.container}>
@@ -111,7 +107,7 @@ const LoginForm = (props) => {
                 <Botao style={styles.btnImagePicker} onPress={imagePicker}>
                   <BotaoTexto>Escolher imagem...</BotaoTexto>
                 </Botao>
-                {displayImage && (
+                {image && (
                   <FastImage
                     style={{
                       width: '100%',
@@ -119,7 +115,7 @@ const LoginForm = (props) => {
                       resizeMode: 'contain',
                       alignSelf: 'center',
                     }}
-                    source={{ uri: displayImage }}
+                    source={{ uri: image.uri }}
                   />
                 )}
               </View>

@@ -14,7 +14,6 @@ import styles from './styles'
 
 const AlterarDadosForm = props => {
   const [image, setImage] = useState(null)
-  const [displayImage, setDisplayImage] = useState(null)
   const nome = useSelector(state => state.UsuarioReducer.nome)
 
   let senhaInput = null
@@ -35,10 +34,7 @@ const AlterarDadosForm = props => {
 
     ImagePicker.showImagePicker(options, response => {
       if (!response.didCancel && !response.error) {
-        const source = `data:image/jpeg;base64,${response.data}`
-
-        setImage(source)
-        setDisplayImage(response.uri)
+        setImage(response)
       }
     })
   }
@@ -89,7 +85,7 @@ const AlterarDadosForm = props => {
                 <Botao style={styles.btnImagePicker} onPress={imagePicker}>
                   <BotaoTexto>Escolher imagem...</BotaoTexto>
                 </Botao>
-                {displayImage && (
+                {image && (
                   <FastImage
                     style={{
                       width: '100%',
@@ -97,7 +93,7 @@ const AlterarDadosForm = props => {
                       resizeMode: 'contain',
                       alignSelf: 'center',
                     }}
-                    source={{ uri: displayImage }}
+                    source={{ uri: image.uri }}
                   />
                 )}
               </View>

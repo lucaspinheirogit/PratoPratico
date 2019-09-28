@@ -18,7 +18,7 @@ const Signup = () => {
     const {
       nome, email, senha, image
     } = values;
-    await dispatch(actions.signup(nome, email, senha, image, 'profilePicture'));
+    await dispatch(actions.signup(nome, email, senha, image));
     setSubmitting(false);
   }
 

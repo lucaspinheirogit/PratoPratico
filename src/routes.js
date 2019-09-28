@@ -86,16 +86,16 @@ const AuthStack = createStackNavigator(
         title: 'BEM-VINDO!',
       },
     },
-    Login: {
-      screen: Login,
-      navigationOptions: {
-        title: 'LOGIN',
-      },
-    },
     Signup: {
       screen: Signup,
       navigationOptions: {
         title: 'CADASTRO',
+      },
+    },
+    Login: {
+      screen: Login,
+      navigationOptions: {
+        title: 'LOGIN',
       },
     },
   },
