@@ -57,6 +57,7 @@ class CriarPrato extends Component {
     else if (!dif) this.setState({ erro: 'Por favor, informe o nível de dificuldade do prato!' })
     else if (!foto) this.setState({ erro: 'Por favor, escolha a foto do prato!' })
     else {
+      console.log('Cadastrando')
       this.props.create(nome, desc, ingredientes, modo, tempo, dif, foto)
     }
   }
@@ -407,7 +408,6 @@ class CriarPrato extends Component {
                 this.state.tempos,
                 this.state.dificuldade,
                 this.state.foto,
-                this.state.fotoNome
               )}
             >
               <BotaoTexto>Cadastrar</BotaoTexto>

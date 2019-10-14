@@ -69,24 +69,27 @@ export default {
           throw new Error(data.message)
         }
       } catch (e) {
-        dispatch({ type: ERROR, erro: e.message })
+        // console.log(e)
+        // dispatch({ type: ERROR, erro: e.message })
       }
 
       dispatch({ type: LOADING_CHANGED, loading: false })
     }
   },
-  update(id, nome, descricao, modo, tempo, dificuldade, foto, fotoNome) {
+  update(id, nome, descricao, modo, tempo, dificuldade, img) {
     return async dispatch => {
-      const body = JSON.stringify({
-        nome,
-        descricao,
-        modo,
-        tempo,
-        publica: true,
-        dificuldade,
-        foto,
-        fotoNome,
-      })
+      const formData = new FormData()
+      formData.append('nome', nome)
+      formData.append('descricao', descricao)
+      formData.append('modo', modo)
+      formData.append('tempo', tempo)
+      formData.append('publica', 1)
+      formData.append('dificuldade', dificuldade)
+      formData.append('fileData', {
+        uri: img.uri,
+        type: img.type,
+        name: img.fileName
+      });
 
       dispatch({ type: LOADING_CHANGED, loading: true })
 
@@ -95,10 +98,9 @@ export default {
           method: 'PUT',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
             Authorization: await AsyncStorage.getItem('token'),
           },
-          body,
+          body: formData,
         })
 
         const data = await response.json()

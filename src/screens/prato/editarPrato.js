@@ -52,8 +52,6 @@ class EditarPrato extends Component {
     tempos: '',
     dificuldade: 'Muito fácil',
     foto: null,
-    fotoDisplay: null,
-    fotoNome: 'camera',
     erro: '',
   };
 
@@ -149,24 +147,16 @@ class EditarPrato extends Component {
       },
     };
 
-    ImagePicker.showImagePicker(options, (response) => {
+    ImagePicker.showImagePicker(options, response => {
       if (!response.didCancel && !response.error) {
-        const source = `data:image/jpeg;base64,${response.data}`;
-        const displaySource = response.uri;
-
         this.setState({
-          foto: source,
-          fotoDisplay: displaySource,
-          fotoNome: response.fileName
-            .split('.')
-            .slice(0, -1)
-            .join('.'),
-        });
+          foto: response
+        })
       }
-    });
+    })
   }
 
-  update(id, nome, desc, modo, tempoh, tempom, tempos, dif, foto, fotoNome) {
+  update(id, nome, desc, modo, tempoh, tempom, tempos, dif, foto) {
     this.setState({ erro: '' });
 
     tempoh || (tempoh = 0);
@@ -180,7 +170,7 @@ class EditarPrato extends Component {
     else if (!tempo) this.setState({ erro: 'Por favor, informe o tempo de preparo do prato!' });
     else if (!dif) this.setState({ erro: 'Por favor, informe o nível de dificuldade do prato!' });
     else {
-      this.props.update(id, nome, desc, modo, tempo, dif, foto, fotoNome);
+      this.props.update(id, nome, desc, modo, tempo, dif, foto);
     }
   }
 
@@ -456,7 +446,7 @@ class EditarPrato extends Component {
               <Botao style={{ width: 180 }} onPress={() => this.imagePicker()}>
                 <BotaoTexto>Escolher imagem...</BotaoTexto>
               </Botao>
-              {this.state.fotoDisplay && (
+              {this.state.foto && (
                 <FastImage
                   style={{
                     width: '100%',
@@ -464,7 +454,7 @@ class EditarPrato extends Component {
                     resizeMode: 'contain',
                     alignSelf: 'center',
                   }}
-                  source={{ uri: this.state.fotoDisplay }}
+                  source={{ uri: this.state.foto.uri }}
                 />
               )}
             </FormGroup>
@@ -486,7 +476,6 @@ class EditarPrato extends Component {
                 this.state.tempos,
                 this.state.dificuldade,
                 this.state.foto,
-                this.state.fotoNome
               )}
             >
               <BotaoTexto>Atualizar</BotaoTexto>
