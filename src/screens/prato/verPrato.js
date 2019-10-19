@@ -46,7 +46,7 @@ const VerPrato = props => {
             ingredientes={ingredientes}
           />
 
-          <Banner
+          {/* <Banner
             unitId="ca-app-pub-2493544327708083/8818072997"
             // unitId="ca-app-pub-3940256099942544/6300978111"
             size="SMART_BANNER"
@@ -57,7 +57,7 @@ const VerPrato = props => {
             onAdFailedToLoad={e => {
               console.log(e)
             }}
-          />
+          /> */}
         </Wrapper>
       )}
     </Wrapper>
