@@ -50,7 +50,7 @@ const LoginForm = (props) => {
         senha: '',
       }}
       onSubmit={(values, { setSubmitting }) => props.onSubmit({ ...values, image }, setSubmitting)}
-      // validationSchema={validationSchema}
+      validationSchema={validationSchema}
     >
       {(props) => (
         <View style={styles.container}>

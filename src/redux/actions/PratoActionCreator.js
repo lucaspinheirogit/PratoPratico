@@ -1,3 +1,5 @@
+import { Alert } from 'react-native'
+
 import API_URL from '~/src/api'
 import AsyncStorage from '~/src/util/AsyncStorage'
 
@@ -29,7 +31,7 @@ export default {
           throw new Error(data)
         }
       } catch (e) {
-        dispatch({ type: ERROR, erro: e.message })
+        Alert.alert('Erro', e.message)
       }
     }
   },
@@ -69,8 +71,7 @@ export default {
           throw new Error(data.message)
         }
       } catch (e) {
-        // console.log(e)
-        // dispatch({ type: ERROR, erro: e.message })
+        Alert.alert('Erro', e.message)
       }
 
       dispatch({ type: LOADING_CHANGED, loading: false })
@@ -111,7 +112,7 @@ export default {
           throw new Error(data.message)
         }
       } catch (e) {
-        dispatch({ type: ERROR, erro: e.message })
+        Alert.alert('Erro', e.message)
       }
 
       dispatch({ type: LOADING_CHANGED, loading: false })
@@ -138,7 +139,7 @@ export default {
           throw new Error(data.message)
         }
       } catch (e) {
-        dispatch({ type: ERROR, erro: e.message })
+        Alert.alert('Erro', e.message)
       }
     }
   },
@@ -162,7 +163,7 @@ export default {
           throw new Error(data.message)
         }
       } catch (e) {
-        dispatch({ type: ERROR, erro: e.message })
+        Alert.alert('Erro', e.message)
       }
     }
   },
@@ -187,7 +188,7 @@ export default {
           throw new Error(data.message)
         }
       } catch (e) {
-        dispatch({ type: ERROR, erro: e.message })
+        Alert.alert('Erro', e.message)
       }
     }
   },

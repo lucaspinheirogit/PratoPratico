@@ -1,3 +1,5 @@
+import { Alert } from 'react-native'
+
 import API_URL from '~/src/api'
 import AsyncStorage from '~/src/util/AsyncStorage'
 import NavigationService from '~/src/util/NavigationService'
@@ -51,14 +53,14 @@ export default {
               throw new Error(data.message)
             }
           } catch (e) {
-            dispatch({ type: ERROR, erro: e.message })
+            Alert.alert('Erro', e.message)
           }
           NavigationService.navigate('TabNavigator', {})
         } else {
           throw new Error(data)
         }
       } catch (e) {
-        dispatch({ type: ERROR, erro: e.message })
+        Alert.alert('Erro', e.message)
       }
     }
   },
@@ -72,8 +74,8 @@ export default {
       formData.append('fileData', {
         uri: img.uri,
         type: img.type,
-        name: img.fileName
-      });
+        name: img.fileName,
+      })
 
       try {
         const response = await fetch(`${API_URL}/auth/signup`, {
@@ -111,15 +113,14 @@ export default {
               throw new Error(data.message)
             }
           } catch (e) {
-            dispatch({ type: ERROR, erro: e.message })
+            Alert.alert('Erro', e.message)
           }
           NavigationService.navigate('TabNavigator', {})
         } else {
           throw new Error(data)
         }
       } catch (e) {
-        console.log(e)
-        dispatch({ type: ERROR, erro: e.message })
+        Alert.alert('Erro', e.message)
       }
     }
   },
@@ -149,7 +150,7 @@ export default {
           throw new Error(data.message)
         }
       } catch (e) {
-        dispatch({ type: ERROR, erro: e.message })
+        Alert.alert('Erro', e.message)
       }
 
       dispatch({ type: LOADING_CHANGED, loading: false })
@@ -163,8 +164,8 @@ export default {
       formData.append('fileData', {
         uri: img.uri,
         type: img.type,
-        name: img.fileName
-      });
+        name: img.fileName,
+      })
 
       try {
         const response = await fetch(`${API_URL}/usuarios`, {
@@ -185,7 +186,7 @@ export default {
           throw new Error(data.message)
         }
       } catch (e) {
-        dispatch({ type: ERROR, erro: e.message })
+        Alert.alert('Erro', e.message)
       }
     }
   },
@@ -224,7 +225,7 @@ export default {
             throw new Error(data.message)
           }
         } catch (e) {
-          dispatch({ type: ERROR, erro: e.message })
+          Alert.alert('Erro', e.message)
         }
         NavigationService.navigate('TabNavigator')
       } else {
