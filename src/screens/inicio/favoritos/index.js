@@ -93,6 +93,9 @@ export default props => {
         imagem={item.Foto}
         dificuldade={item.Dificuldade}
         navegar={props.navigation.navigate}
+        removerFavorito={() => {
+          setFavoritos(favoritos.filter(f => f.Id !== item.Id))
+        }}
       />
     )
   }

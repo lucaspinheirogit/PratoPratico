@@ -28,6 +28,7 @@ const Prato = props => {
   function favoritar() {
     setFavorito(!favorito)
     dispatch(actions.favorite(props.id, favorito))
+    if (props.removerFavorito) props.removerFavorito()
   }
 
   return (
