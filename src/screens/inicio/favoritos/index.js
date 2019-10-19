@@ -58,7 +58,7 @@ export default props => {
       })
       const data = await response.json()
 
-      setFavoritos([...data.pratos])
+      setFavoritos(data.pratos)
       setPagination({
         ...pagination,
         offset: pagination.limit,
@@ -113,9 +113,9 @@ export default props => {
               refreshing={isFetching}
               renderItem={renderItem}
               keyExtractor={item => item.Id.toString()}
-              onEndReached={
-                pagination.hasMore ? getFavoritos(pagination.offset, pagination.limit) : ''
-              }
+              onEndReached={() => {
+                if (pagination.hasMore) getFavoritos(pagination.offset, pagination.limit)
+              }}
               onEndReachedThreshold={0.1}
               ListFooterComponent={renderFooter}
             />
@@ -141,5 +141,5 @@ const styles = StyleSheet.create({
   btnAddPratoText: { fontSize: 22 },
   alignCenter: { alignItems: 'center' },
   margin20: { margin: 20 },
-  noMoreMessage: { marginBottom: 80, color: '#CCC' },
+  noMoreMessage: { paddingTop: 10, marginBottom: 80, color: '#444' },
 })

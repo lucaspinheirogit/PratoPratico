@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   alignCenter: { alignItems: 'center' },
   margin20: { margin: 20 },
-  noMoreMessage: { marginBottom: 80, color: '#CCC' },
+  noMoreMessage: { marginBottom: 80, color: '#444' },
   erro: { color: 'red' },
   btnAddPrato: {
     position: 'absolute',
